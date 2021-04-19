@@ -24,12 +24,7 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 model.fit(imagesTraining, labelsTraining, epochs=150)
 model.evaluate(imagesTesting, labelsTesting)
 
-for i in range(0,8):
-  image = cv2.imread("C:/Users/Sam/Desktop/Training Sets/MNIST/"+str(i)+".jpg", 0)/255
-  image = image.reshape(1,28,28)
-  pred = model.predict(image) 
-  pred = np.argmax(pred)
-  print(pred) 
+model.save("C:/Coding/Github Projects/handwritten-latex/Model/")
 
 #pred = model.predict(image) 
 #pred = np.argmax(pred)
