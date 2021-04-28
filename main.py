@@ -4,6 +4,12 @@ from tkinter import scrolledtext
 from PIL import ImageTk,Image 
 import execute
 
+def disableButtons():
+    showImageButton["state"], okButton["state"], downloadButton["state"], updateButton["state"] = tk.DISABLED, tk.DISABLED, tk.DISABLED, tk.DISABLED
+
+def enableButtons():
+    showImageButton["state"], okButton["state"], downloadButton["state"], updateButton["state"] = tk.NORMAL, tk.NORMAL, tk.NORMAL, tk.NORMAL
+
 def updateText(text):
     text_widget["state"] = tk.NORMAL
     text_widget.insert(tk.INSERT, text)
@@ -31,28 +37,29 @@ def executeProgram():
         global processedFlag
         global processedImage
         thresholdValue = thresholdEntry.get()
-        if type(int(thresholdValue)) is not int:
-            updateText("Value is not an integer.\n")
-            raise ValueError("Value is not an integer.")
-        elif type(int(thresholdValue)) is int and (int(thresholdValue) > 255 or int(thresholdValue) < 0):
+        if thresholdValue.isdigit() == False:
+            updateText("Value is not a positive integer.\n")
+        elif thresholdValue.isdigit() == True and (int(thresholdValue) > 255 or int(thresholdValue) < 0):
             updateText("Value of threshold should be 0-255.\n")
-            raise ValueError("Value of threshold should be 0-255.")
-        processedFlag = True
-        img = execute.processImage(filename, int(thresholdValue))
-        processedImage = img
-        img = Image.fromarray(img)
-        newHeight = 300/img.size[0]
-        img = img.resize((299, int(newHeight*img.size[1])), Image.ANTIALIAS)
-        img = ImageTk.PhotoImage(img) 
-        procImage.configure(image=img)
-        procImage.image = img
-        procImage.pack(side=tk.RIGHT)
-        updateText("Processed image has been generated.\n")
+        else:
+            processedFlag = True
+            disableButtons()
+            img = execute.processImage(filename, int(thresholdValue))
+            processedImage = img
+            img = Image.fromarray(img)
+            newHeight = 300/img.size[0]
+            img = img.resize((299, int(newHeight*img.size[1])), Image.ANTIALIAS)
+            img = ImageTk.PhotoImage(img) 
+            procImage.configure(image=img)
+            procImage.image = img
+            procImage.pack(side=tk.RIGHT)
+            updateText("Processed image has been generated.\n")
+            enableButtons()
 
 def showImage():
     def destroyWindow():
         nwin.destroy()
-        showImageButton["state"], okButton["state"], downloadButton["state"] = tk.NORMAL, tk.NORMAL, tk.NORMAL
+        enableButtons()
 
     if filename == "":
         updateText("Please select an image first.\n")
@@ -66,7 +73,7 @@ def showImage():
         photo2 = ImageTk.PhotoImage(photo3) 
         nwinCanvas = tk.Canvas(nwin, width = photo3.size[0], height = photo3.size[1])
         nwinCanvas.pack(expand = tk.YES, fill = tk.BOTH)
-        showImageButton["state"], okButton["state"], downloadButton["state"] = tk.DISABLED, tk.DISABLED, tk.DISABLED
+        disableButtons()
         nwinCanvas.create_image(1, 1, image = photo2, anchor = tk.NW)
         nwin.resizable(True, True)
         nwin.protocol("WM_DELETE_WINDOW", destroyWindow)
