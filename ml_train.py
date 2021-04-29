@@ -27,16 +27,16 @@ additionalDictionary = {"!":76, "(":77, ")":78, "[":79, "]":80, ",":81}
 tensorDictionary = dict(digitsDictionary, **alphabetDictionary, **dataRefDicitionary, **additionalDictionary)
 
 
-def trainML(trainingSet, trainingLabels, testingSet, testingLabel):
-    model = tf.keras.models.Sequential([
-	tf.keras.layers.Flatten(input_shape=(128, 128)), 
-	tf.keras.layers.Dense(128, activation='relu'), 
-	tf.keras.layers.Dropout(0.2), 
-	tf.keras.layers.Dense(10, activation='softmax')])
-    model.compile(optimizer='adam',loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-    model.fit(trainingSet, trainingLabels, epochs=50)
-    model.evaluate(testingSet, testingLabel)
-    model.save("./Model/")
+#def trainML(trainingSet, trainingLabels, testingSet, testingLabel):
+#    model = tf.keras.models.Sequential([
+#	tf.keras.layers.Flatten(input_shape=(128, 128)), 
+#	tf.keras.layers.Dense(128, activation='relu'), 
+#	tf.keras.layers.Dropout(0.2), 
+#	tf.keras.layers.Dense(10, activation='softmax')])
+#    model.compile(optimizer='adam',loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+#    model.fit(trainingSet, trainingLabels, epochs=50)
+#    model.evaluate(testingSet, testingLabel)
+#    model.save("./Model/")
 
 def progressBar(currentNumber, totalNumber, currentTask):
     if currentNumber % 50 == 0 or currentNumber == totalNumber:                                             # The value should be changed to be approximately 1%

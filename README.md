@@ -1,11 +1,11 @@
 # handwritten-latex
 AI that converts my terrible handwriting into LaTeX code in order to semi-automatically clean up my notes. This does not take care of formatting. Formatting is left up to the user to deal with by outputting raw LaTeX code for the user to rearrange.
 
-I used Tensor Flow (with Python) to train the neural network with data from [MNIST database](http://yann.lecun.com/exdb/mnist/), [handwritten math symbols dataset](https://www.kaggle.com/xainano/handwrittenmathsymbols) (by Xai Nano) and my own handwritten data for missing symbols. Credit to those providers for immensely helping creating the training/testing set. My own images are published in one folder in this repository.
+I used Tensor Flow (with Python) to train the neural network with data from ~~[MNIST database](http://yann.lecun.com/exdb/mnist/)~~ (discarded due to the small resolution unfit for the project), ~~[handwritten math symbols dataset](https://www.kaggle.com/xainano/handwrittenmathsymbols) (by Xai Nano)~~ (discarded due to poor quality) and my own handwritten data for missing symbols. Credit to those providers for immensely helping creating the training/testing set. My own images are published in one folder in this repository.
 
 Additional sets used (credit to their respective authors):
-- [Handwritten Math Symbols](https://www.kaggle.com/sagyamthapa/handwritten-math-symbols) by sagyamthapa (without the letters)
-- [Handwritten math symbol and digit dataset](https://www.kaggle.com/clarencezhao/handwritten-math-symbol-dataset) by clarencezhao
+- [Handwritten Math Symbols](https://www.kaggle.com/sagyamthapa/handwritten-math-symbols) by sagyamthapa (Sagyam Thapa)
+- [Handwritten math symbol and digit dataset](https://www.kaggle.com/clarencezhao/handwritten-math-symbol-dataset) by clarencezhao (Clarence Zhao)
 - [Handwritten Mathematical Expressions](https://www.kaggle.com/rtatman/handwritten-mathematical-expressions) by rtatman
 
 This is my first machine learning project (and first big project involving Python). As such, any kind of suggestion would be welcome. Merge and pull requests are more than welcome, provided that they are well explained. I tried focusing on GUI, machine learning, and general programming structure. Obviously, code is a bit scuffed, but I'll try to improve it as much as possible later down the line.
@@ -25,8 +25,7 @@ These are the problems I have yet to address:
 - Magnifying the image does not allow for scrolling or dynamic resizing
 
 ## To do
-- Retrain the bot with 128 x 128 images
-- ~~Integrate training with the UI (yellow button)~~ (retraining the bot is completely pointless)
+- Retrain the bot with 48 x 48 images
 - User guide OR labels for the buttons and images
 
 Possible sets that could be used to improve the ML:
