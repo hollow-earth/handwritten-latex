@@ -25,24 +25,55 @@ trainingLabels = load(processedPath + "trainingLabels.npy")
 testingSet = load(processedPath + "testingSet.npy")
 testingLabels = load(processedPath + "testingLabels.npy")
 
-trainingSet = reshape(trainingSet, (trainingSet.shape[0], 100, 100, 1))
+trainingSet = reshape(trainingSet, (trainingSet.shape[0], 100, 100, 1)) #channels_last
 testingSet = reshape(testingSet, (testingSet.shape[0], 100, 100, 1))
+#trainingSet = trainingSet.astype("float32")
+#testingSet = trainingSet.astype("float32")    
 
-"""model = tf.keras.models.Sequential([
-	tf.keras.layers.Flatten(input_shape=(100, 100)), 
-	tf.keras.layers.Dense(128, activation='relu'), 
-	tf.keras.layers.Dropout(0.2), 
-	tf.keras.layers.Dense(10, activation='softmax')])
+model = tf.keras.models.Sequential([
+	tf.keras.layers.Conv2D(filters = 32, kernel_size = 3, input_shape = (100,100,1), padding="same", activation=tf.nn.relu),
+	tf.keras.layers.MaxPooling2D(pool_size=2),
+	tf.keras.layers.Conv2D(filters = 64, kernel_size = 3, padding="same", activation=tf.nn.relu),
+	tf.keras.layers.MaxPooling2D(pool_size=2),
+	tf.keras.layers.Conv2D(filters = 128, kernel_size = 3, padding="same", activation=tf.nn.relu),
+	tf.keras.layers.MaxPooling2D(pool_size=2),
+	tf.keras.layers.Dense(units = 1024, activation=tf.nn.relu),
+	tf.keras.layers.Flatten()
+	#tf.keras.layers.Dropout(0.4),
+	#tf.keras.layers.Dense(10, activation='softmax')
+])
 model.compile(optimizer='adam',loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.fit(trainingSet, trainingLabels, epochs=50)
 model.evaluate(testingSet, testingLabels)
-model.save("./Model/")"""
+model.save("./Model/")
+
+#model = tf.keras.models.Sequential([
+#	tf.keras.layers.Flatten(input_shape=(100, 100)), 
+#	tf.keras.layers.Dense(128, activation='relu'), 
+#	tf.keras.layers.Dropout(0.2), 
+#	tf.keras.layers.Dense(10, activation='softmax')])
+#model.compile(optimizer='adam',loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+#model.fit(trainingSet, trainingLabels, epochs=50)
+#model.evaluate(testingSet, testingLabels)
+#model.save("./Model/")
 
 
-model = tf.keras.models.Sequential([
-	tf.keras.layers.Conv2D(filters = 32, kernel_size = [7,7], input_shape = (100,100,1), padding="same", activation=tf.nn.relu),
-	tf.keras.layers.MaxPooling2D(pool_size=[2,2], strides=2)
-])
+#model = tf.keras.models.Sequential([
+#	tf.keras.layers.Conv2D(filters = 32, kernel_size = [7,7], input_shape = (100,100,1), padding="same", activation=tf.nn.relu),
+#	tf.keras.layers.MaxPooling2D(pool_size=[2,2], strides=2),
+#	tf.keras.layers.Conv2D(filters = 64, kernel_size = [7,7], input_shape = (100,100,1), padding="same", activation=tf.nn.relu),
+#	tf.keras.layers.MaxPooling2D(pool_size=[2,2], strides=2),
+#	tf.keras.layers.Conv2D(filters = 128, kernel_size = [7,7], input_shape = (100,100,1), padding="same", activation=tf.nn.relu),
+#	tf.keras.layers.MaxPooling2D(pool_size=[2,2], strides=2),
+#	tf.keras.layers.Dense(units = 2048, activation=tf.nn.relu),
+#	tf.keras.layers.Dropout(0.4),
+#	tf.keras.layers.Dense(10, activation='softmax')
+#])
+#model.compile(optimizer='adam',loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+#model.fit(trainingSet, trainingLabels, epochs=50)
+#model.evaluate(testingSet, testingLabels)
+#model.save("./Model/")
+
 
 for folder in listdir(testImagesPath):
 	for img in listdir(testImagesPath + folder):
@@ -50,7 +81,7 @@ for folder in listdir(testImagesPath):
 		image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 		image = cv2.resize(image, (100,100), interpolation= cv2.INTER_NEAREST)
 		image = 255-image
-		image = reshape(image, (1,100,100))
+		image = reshape(image, (1,100,100,1))
 
 		pred = model.predict(image)
 		pred = argmax(pred)
